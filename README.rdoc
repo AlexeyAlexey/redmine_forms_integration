@@ -1,3 +1,12 @@
 = redmine_forms_integration
 
-Description goes here
+Put your Redmine plugins here.
+
+Form Integration To Redmine
+
+Plugin provides behavior same as 
+    Browser Uploads to S3 using HTML POST Forms (https://aws.amazon.com/articles/1434) 
+
+Changelog
+  05 May2015
+    Version 0.0.1
