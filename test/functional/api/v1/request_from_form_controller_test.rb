@@ -1,12 +1,12 @@
-require File.expand_path('../../../test_helper', __FILE__)
+require File.expand_path('../../../../test_helper', __FILE__)
 
 require 'base64'
 require 'openssl'
 require 'digest/sha1'
 
 module API
-
-  class FormsIntegrationControllerTest < ActionController::TestCase
+  class V1::RequestFromFormControllerTest < ActionController::TestCase
+    # Replace this with your real tests.
     fixtures :projects, :versions, :users, :email_addresses, :roles, :members,
            :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses,

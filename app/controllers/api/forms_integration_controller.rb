@@ -4,6 +4,7 @@ module API
     before_filter :check_signtature
 
     def create
+      call_hook(:create_forms_integration, :forms_integration_key => @forms_integration_key)
       render :nothing => true, status: 200
     end
 
