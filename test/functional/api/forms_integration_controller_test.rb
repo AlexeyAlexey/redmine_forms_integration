@@ -1,12 +1,12 @@
-require File.expand_path('../../../../test_helper', __FILE__)
+require File.expand_path('../../../test_helper', __FILE__)
 
 require 'base64'
 require 'openssl'
 require 'digest/sha1'
 
 module API
-  class V1::RequestFromFormControllerTest < ActionController::TestCase
-    # Replace this with your real tests.
+
+  class FormsIntegrationControllerTest < ActionController::TestCase
     fixtures :projects, :versions, :users, :email_addresses, :roles, :members,
            :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses,
@@ -38,13 +38,13 @@ module API
       assert true
     end
 
-    def test_post_from_form_is_success
+    def test_post_from_forms
       post :create, {access_key_id: @access_key_id, policy: @policy, signature: @signature}
       assert_response :success
       #assert_equal 200, response.status
     end
 
-    def test_post_from_form_permission_denide
+    def test_post_from_forms_permission_denide
       fake_policy_document = {"expiration": "2015-01-01T00:00:00Z",
         "fake": []
       }
@@ -52,14 +52,6 @@ module API
       post :create, {access_key_id: @access_key_id, policy: fake_policy, signature: @signature}
       
   	  assert_response 403
-    end
-
-    def test_post_from_form_non_authoritative_information 
-      post :create, {access_key_id: @access_key_id, policy: @policy, signature: @signature}
-
-      post :create, {access_key_id: @access_key_id, policy: @policy, signature: @signature}
-
-      assert_response 203
     end
   end
 end

@@ -2,6 +2,8 @@ ActionDispatch::Callbacks.to_prepare do
     require_dependency 'forms_integration_association_to_issue'
     require_dependency 'forms_integration_association_to_project'
     
+    (require_dependency 'test/test_create_forms_integration') if Rails.env.test?
+
     Issue.send(:include, Redmine::FormsIntegration::IssueModelPatch)
     Project.send(:include, Redmine::FormsIntegration::ProjectPatch)
 end

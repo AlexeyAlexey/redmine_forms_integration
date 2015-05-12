@@ -5,7 +5,7 @@ module API
       before_filter :check_signtature
 
       def create
-        call_hook(:create_forms_integration, :forms_integration_key => @forms_integration_key)
+        call_hook(:create_forms_integration, {:forms_integration_key => @forms_integration_key, :signature => @signature})
         render :nothing => true, status: 200
       end
 
@@ -19,6 +19,10 @@ module API
            ).gsub("\n","")
          
            if @signature == params[:signature]
+             if FormsIntegrationKeySignature.exists?(:signature => @signature)
+               render :nothing => true, status: 203
+               return
+             end
              return true
            else
              render :nothing => true, status: 403

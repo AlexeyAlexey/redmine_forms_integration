@@ -6,6 +6,7 @@ class CreateFormsIntegrationKeys < ActiveRecord::Migration
       t.string     :access_token, null: false
       t.datetime   :expires_at
       t.boolean    :blocked
+      t.boolean    :deleted
       t.timestamps null: false
     end
 
