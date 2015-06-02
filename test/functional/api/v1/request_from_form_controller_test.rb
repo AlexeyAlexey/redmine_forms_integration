@@ -15,8 +15,7 @@ module API
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
     def setup
-      #@controller = API::FormsIntegrationController.new
-
+      Setting['plugin_redmine_forms_integration'][:expiration_time] = 60
       @project = Project.find(1)
       @project_key = @project.forms_integration_keys.build
       @project_key.save
@@ -24,7 +23,7 @@ module API
 
       @access_key_id = @project_key.id
       @secret_key = @project_key.access_token
-      policy_document = {"expiration": "2015-01-01T00:00:00Z",
+      policy_document = {"expiration": Time.now.utc,
         "conditions": []
       }
       @policy = Base64.encode64(policy_document.to_json).gsub("\n","")
@@ -45,7 +44,7 @@ module API
     end
 
     def test_post_from_form_permission_denide
-      fake_policy_document = {"expiration": "2015-01-01T00:00:00Z",
+      fake_policy_document = {"expiration": Time.now.utc,
         "fake": []
       }
       fake_policy = Base64.encode64(fake_policy_document.to_json).gsub("\n","")
@@ -55,11 +54,24 @@ module API
     end
 
     def test_post_from_form_non_authoritative_information 
+      Setting['plugin_redmine_forms_integration'][:expiration_time] = 60
       post :create, {access_key_id: @access_key_id, policy: @policy, signature: @signature}
 
       post :create, {access_key_id: @access_key_id, policy: @policy, signature: @signature}
 
       assert_response 203
+    end
+
+    def test_post_data_expiration_is_not_valid
+       Setting['plugin_redmine_forms_integration'][:expiration_time] = 60
+      policy_document = {"expiration": Time.now.utc-120,
+        "conditions": []
+      }
+      @policy = Base64.encode64(policy_document.to_json).gsub("\n","")
+
+      @signature = Base64.encode64(
+        OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), @secret_key, @policy)
+      ).gsub("\n","")
     end
   end
 end

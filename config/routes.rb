@@ -2,11 +2,11 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 
-namespace :api do
+namespace :api, defaults: { format: 'json' } do
   scope module: :v1 do
-    resources :forms_integration#, only: [:create]
     resources :request_from_form
-    
   end
 end
+
+#resources :forms_integration#, only: [:create]
 

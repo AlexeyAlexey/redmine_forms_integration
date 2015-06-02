@@ -3,8 +3,6 @@ class FormsIntegrationKey < ActiveRecord::Base
   has_many :forms_integration_key_signatures, dependent: :destroy
 
   belongs_to :object, :polymorphic => true, required: true
-  
-  validates_uniqueness_of :object_type, scope: :object_id
 
   before_create :generate_access_token
 

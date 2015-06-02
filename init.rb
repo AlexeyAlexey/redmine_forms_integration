@@ -14,4 +14,6 @@ Redmine::Plugin.register :redmine_forms_integration do
   version '0.0.1'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
+
+  settings :default => {'empty' => true}, :partial => 'redmine_forms_integration_settings/settings'
 end

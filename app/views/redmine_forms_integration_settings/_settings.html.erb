@@ -1,0 +1,10 @@
+<table>
+  <tbody>
+    <tr>
+      <th>Expiration</th>
+      <td>
+        <%=number_field_tag("settings[expiration_time]", @settings[:expiration_time], {min: 0})%> seconds        
+      </td>
+    </tr>
+  </tbody>
+</table>
